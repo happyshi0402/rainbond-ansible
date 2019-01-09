@@ -1,0 +1,3 @@
+---
+gfsmount: "/grdata"
+gfscmd: {{ storage_path }}

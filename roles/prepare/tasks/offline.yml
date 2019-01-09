@@ -20,7 +20,7 @@
   when: ansible_distribution == "CentOS" and offline_repo.stat.isreg is not defined
 
 - name: Offline | yum-clean-metadata
-  command: yum clean all
+  shell: yum clean all && yum makecache
   args:
     warn: no
-  when: ansible_distribution == "CentOS"
+  when: ansible_distribution == "CentOS" and offline_repo.stat.isreg is not defined

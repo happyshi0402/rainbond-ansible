@@ -1,0 +1,5 @@
+---
+is_ubuntu: "'{{ansible_distribution}}' == 'Ubuntu'"
+is_debian: "'{{ansible_distribution}}' == 'Debian'"
+is_debian_or_ubuntu: "'{{ansible_distribution}}' in ['Ubuntu', 'Debian']"
+is_centos: "'{{ansible_distribution}}' == 'CentOS'"

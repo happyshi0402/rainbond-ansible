@@ -1,0 +1,6 @@
+---
+nfsserver: "{{hostvars[groups['master'][0]]['ip']}}"
+nfspath: "/grdata"
+nass: {{ storage_path }}
+nfsmount: "/grdata"
+nasoptions: "vers=3,nolock,noatime"

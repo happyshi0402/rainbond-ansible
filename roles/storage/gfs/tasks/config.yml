@@ -1,0 +1,28 @@
+---
+- name: check nfs server
+  stat: path="/grdata/kubernetes/kube-proxy.kubeconfig"
+  register: check_server
+
+- name: install gfs repo centos
+  action: yum pkg=centos-release-gluster state=present
+  when: ansible_os_family == 'RedHat' and check_server.stat.isreg is not defined and install_type == "online"
+
+- name: install gfs client centos
+  action: yum pkg=glusterfs-fuse state=present
+  when: ansible_os_family == 'RedHat' and check_server.stat.isreg is not defined
+
+- name: Ensure {{nfsmount}} directory exists
+  action: file path={{nfsmount}} state=directory
+
+- name: configure /etc/fstab on clients
+  blockinfile:
+    dest: /etc/fstab
+    block: |-
+      {{ gfscmd }}
+    state: present
+    create: yes
+    backup: yes
+  when: check_server.stat.isreg is not defined
+
+- name: Ensure grdata mount  
+  command: mount -a

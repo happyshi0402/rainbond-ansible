@@ -55,6 +55,8 @@
   roles:
     - { role: rainvar, tags: default }
     - { role: storage/nfs/client, when: "storage_type == 'nfs'" }
+    - { role: storage/nas, when: "storage_type == 'nas'" }
+    - { role: storage/gfs, when: "storage_type == 'gfs'" }
 
 - hosts: lb
   roles:

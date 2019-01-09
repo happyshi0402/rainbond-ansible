@@ -73,7 +73,14 @@ get_default_dns() {
     sed -i -r  "s/(^default_dns_local: ).*/\1$dns/" roles/rainvar/defaults/main.yml
 }
 
-get_default_netwrok_type() {
+get_default_storage_type(){
+
+    info "Storage Provider" "${STORAGE}"
+    sed -i -r  "s/(^storage_type: ).*/\1$STORAGE/" roles/rainvar/defaults/main.yml
+    sed -i -r  "s/(^storage_path: ).*/\1$STORAGE_ARGS/" roles/rainvar/defaults/main.yml
+}
+
+get_default_network_type() {
     if [ "$NETWORK_TYPE" == "flannel" ];then
         network="flannel"
     else
@@ -317,7 +324,8 @@ prepare(){
 
     other_type_linux
     get_default_dns
-    [ "$DEPLOY_TYPE" != "thirdparty" ] && get_default_netwrok_type
+    [ "$DEPLOY_TYPE" != "thirdparty" ] && get_default_network_type
+    [ "$STORAGE" != "nfs" ] && get_default_storage_type
     get_default_install_type
     info "Deploy Type" $DEPLOY_TYPE
     get_default_config
